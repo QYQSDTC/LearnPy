@@ -1,0 +1,4 @@
+I must write something here to learn how to read files in Python, so I wanna say
+I am a genius.
+I am a genuine genius.
+I am a genius ingenue.
