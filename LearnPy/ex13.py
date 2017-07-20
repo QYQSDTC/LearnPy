@@ -10,5 +10,5 @@ lives = input(prompt)
 print("What computer do you have?")
 computer = input(prompt)
 print(f'''
-    Allright, so you said \"{likes}\" liking me. You live in {lives}). Not sure where that is. You have a {computer} computer. Nice.
+    Allright, so you said \"{likes}\" liking me. You live in {lives}. Not sure where that is. You have a {computer} computer. Nice.
     ''')
