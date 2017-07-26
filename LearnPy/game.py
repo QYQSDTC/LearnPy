@@ -1,5 +1,5 @@
 from sys import exit
-from random import randint
+import random
 from textwrap import dedent
 
 
@@ -36,8 +36,16 @@ class Death(Scene):
     ]
 
     def enter(self):
-        print(Death.quips[randint(0,len(self.quips)-1)])
-        exit(1)
+        print(Death.quips[random.randint(0,len(self.quips)-1)])
+    #    exit(1)
+        print("Do you want to play agian?")
+        R = input("YES or NO\n>")
+        if R == 'YES':
+            self.a_map = Map('Central_Corridor')
+            self.a_game = Engine(a_map)
+            self.a_game.play()
+        else:
+            exit(1)
 
 
 class CentralCorridor(Scene):
@@ -76,8 +84,7 @@ class CentralCorridor(Scene):
 class  LaserWeaponArmory(Scene):
     def enter(self):
         print(dedent("""
-        You do a dive roll into the Weapon Armory, crouch and scan  the room for more Gothons that might be hiding. It's dead quiet, too quiet. You stand up and run to the far side of the room and find the neutron bomb in its container. There's a keypad lock on the box and you need the code to get the bomb out. If you get the code wrong 10 times then the lock closes forever and you can't get the bomb. The code is 3 digits.
-        """))
+        You do a dive roll into the Weapon Armory, crouch and scan  the room for more Gothons that might be hiding. It's dead quiet, too quiet. You stand up and run to the far side of the room and find the neutron bomb in its container. There's a keypad lock on the box and you need the code to get the bomb out. If you get the code wrong 10 times then the lock closes forever and you can't get the bomb."""))
 
         code = "9.1*10^(-11)"
         # seceret operation
@@ -131,22 +138,28 @@ class TheBridge(Scene):
 class EscapePod(Scene):
     def enter(self):
         print(dedent("""
-        You rush through the ship desperately trying to make it to the escape pod before the whole ship explodes. It seems like hardly any Gothons are on the ship, so your run is clear of interference. You get to the chamber with the escape pods, and now need to pick one to take. Some of them could be damaged but you don't have time to look. There's 5 pods, which one do you take?
+        You rush through the ship desperately trying to make it to the escape pod before the whole ship explodes. It seems like hardly any Gothons are on the ship, so your run is clear of interference. You get to the chamber with the escape pods, and now need to pick one to take. There are two pods entangle with each other, they maybe both damaged or one of them damaged or both are in good state, but you don't know, unless you try one. which one do you take?
         """))
-        print("Do you like the alien problem? I think you like it, so let's do more physics. The 5 pods stand for 5 quantom status and they entangle each other in a specific way. Now I can tell you the ?  ")
-        good_pod = randint(1,5)
+
+        p = random.random()
+        p1 = round(p,2)
+        p = 1 - p1
+        p2 = round(p,2)
+        print(f"Do you like the alien problem? I think you like it, so let's do more physics. The 2 pods stand for 2 quantum status and they entangle each other in a specific way, i.e like electron spin. Now I can tell you the eigenvalue of the 1st one is 1/2  and the probability to detect it is {p1}, the 2nd pod's eigenvalue is -1/2 and its probability is {p2}. So what's the expectation of the whole quantum system? You can enter the equation directly. ")
+        good_pod = p1 * 1 / 2 + p2 * (- 1 / 2)
         # seceret operation
         #print(good_pod)
-        guess = input('[pod #]> ')
+        guess = eval(input('[pod #]> '))
+        pod = round(guess,2)
 
-        if int(guess) != good_pod:
+        if guess != good_pod:
             print(dedent(f"""
-            You jump into pod {guess} and hit the eject button. The pod escapes out into the void of space, then implodes as the hull ruptures, crushing your body into jam jelly.
+            You jump into pod {pod} and hit the eject button. The pod escapes out into the void of space, then implodes as the hull ruptures, crushing your body into jam jelly.
             """))
             return 'death'
         else:
             print(dedent(f"""
-            You jump into pod {guess} and hit the eject button. The pod easily slides out into space heading to the planet below. As it flies to the planet, you look back and see your ship implode then explode like a bright star, taking out the Gothon ship at the same time. You won!
+            You jump into pod {pod} and hit the eject button. The pod easily slides out into space heading to the planet below. As it flies to the planet, you look back and see your ship implode then explode like a bright star, taking out the Gothon ship at the same time. You won!
             """))
             return 'finished'
 
