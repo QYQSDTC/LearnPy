@@ -39,8 +39,8 @@ class Death(Scene):
         print(Death.quips[random.randint(0,len(self.quips)-1)])
     #    exit(1)
         print("Do you want to play agian?")
-        R = input("YES or NO\n>")
-        if R == 'YES':
+        R = input("YES or NO\n>").lower()
+        if R == 'yes':
             self.a_map = Map('Central_Corridor')
             self.a_game = Engine(a_map)
             self.a_game.play()
@@ -58,20 +58,21 @@ class CentralCorridor(Scene):
         """))
 
         action = input('>A. shoot B. dodge C. tell a joke\n')
+        a = action.lower()
 
-        if action == 'A':
+        if action == 'a':
             print(dedent("""
             Quick on the draw you yank out your blaster and fire it at the Gothon. His clown costume is flowing and moving around his body, which throws off your aim. Your laser hits his costume but misses him entirely. This completely ruins his brand new costume his mother bought him, which makes him fly into an insane rage and blast you repeatedly in the face until you are dead. Then he eats you.
             """))
             return 'death'
 
-        elif action == 'B':
+        elif action == 'b':
             print(dedent("""
             Like a world class boxer you dodge, weave, slip and slide right as the Gothon's blaster cranks a laser past your head. In the middle of your artful dodge your foot slips and you bang your head on the metal wall and pass out. You wake up shortly after only to die as the Gothon stomps on your head and eats you.
             """))
             return 'death'
 
-        elif action == 'C':
+        elif action == 'c':
             print(dedent("""
             Lucky for you they made you learn Gothon insults in the academy. You tell the one Gothon joke you know: Lbhe zbgure vf fb sng, jura fur fvgf nebhaq gur ubhfr, fur fvgf nebhaq gur ubhfr. The Gothon stops, tries not to laugh, then busts out laughing and can't move. While he's laughing you run up and shoot him square in the head putting him down, then jump through the Weapon Armory door.
             """))
