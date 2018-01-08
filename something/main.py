@@ -93,7 +93,7 @@ class Arxiv:
             self.subs = self.get_subs()
 
         while sub not in self.subs or not sub:
-            print("please input your sub from list:", " ".join(self.subs))
+            print("please input your sub from list:", "\n".join(self.subs))
             sub = input("> ")
 
         self.url = URL.format(sub = sub)
@@ -197,16 +197,17 @@ class Arxiv:
 
 def main() -> None:
     """Yooo, here is the main function."""
-    arxiv = Arxiv(sub = "astro-ph")
+    arxiv = Arxiv()
     arxiv.run()
-    print("All papers:")
-    for i in arxiv.papers:
-        print(
-            i,
-            arxiv.papers[i]["title"],
-            arxiv.papers[i]["abstract"],
-            sep = "\n"
-        )
+    if input("show all papers(y/n)?")[0] == "y":
+        print("All papers:")
+        for i in arxiv.papers:
+            print(
+                i,
+                arxiv.papers[i]["title"],
+                arxiv.papers[i]["abstract"],
+                sep = "\n"
+            )
     if arxiv.new_papers:
         print("new papers:")
         for i in arxiv.new_papers:
