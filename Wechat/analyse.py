@@ -1,3 +1,10 @@
+'''
+Thanks to http://blog.csdn.net/qinyuanpei/article/details/79360703 for the guidance
+'''
+
+
+
+
 import itchat
 import jieba
 from collections import Counter
