@@ -6,6 +6,7 @@ import numpy as np
 
 
 # login
+#itchat.auto_login(hotReload = True) # auto login
 itchat.login()
 friends = itchat.get_friends(update = True)
 #print(friends[0:3])
@@ -30,7 +31,7 @@ def analyseSex(friends):
             pctdistance = 0.6
             )
     plt.legend(loc = 'upper left')
-    plt.title("QYQ nuo friends' gender distribution")
+    plt.title(u"%s nuo friends' gender distribution" % friends[0]['NickName'])
     plt.show()
 
 analyseSex(friends)
