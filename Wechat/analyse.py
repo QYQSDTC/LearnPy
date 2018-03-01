@@ -6,13 +6,13 @@ import numpy as np
 
 
 # login
-itchat.auto_login(hotReload = True)
+itchat.login()
 friends = itchat.get_friends(update = True)
 #print(friends[0:3])
 
 def analyseSex(friends):
     sexs = list(map(lambda x: x["Sex"], friends[1:]))
-    print(sexs)
+    #print(sexs)
     counts = list(map(lambda x: x[1], Counter(sexs).items()))
     #a = Counter(sexs).items()
     #print(a)
