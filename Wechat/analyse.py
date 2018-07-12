@@ -10,7 +10,7 @@ import jieba
 from collections import Counter
 import matplotlib.pyplot as plt
 import numpy as np
-
+import csv
 
 # login
 itchat.auto_login(hotReload = True) # auto login
@@ -30,7 +30,7 @@ def analyseSex(friends):
     plt.pie(counts,
             labels = labels,
             colors = colors,
-            labeldistance = 1.1,
+            labeldistance = 2.0,
             autopct = '%3.1f%%',
             shadow = False,
             startangle = 90,
@@ -40,4 +40,20 @@ def analyseSex(friends):
     plt.title(u"%s nuo friends' gender distribution" % friends[0]['NickName'])
     plt.show()
 
-analyseSex(friends)
+def analyseLocation(friends):
+    headers = ['NickName','Province','City']
+    with open('location.csv','w',encoding='utf-8',newline='',) as csvFile:
+        writer = csv.DictWriter(csvFile, headers)
+        writer.writeheader()
+        for friend in friends[1:]:
+           row = {}
+           row['NickName'] = friend['NickName']
+           row['Province'] = friend['Province']
+           row['City'] = friend['City']
+           writer.writerow(row)
+
+
+
+if __name__ == '__main__':
+    analyseSex(friends)
+    analyseLocation(friends)
