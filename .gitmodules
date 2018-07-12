@@ -1,3 +1,6 @@
 [submodule "DeepLearning.ai-Summary"]
 	path = DeepLearning.ai-Summary
 	url = https://github.com/mbadry1/DeepLearning.ai-Summary
+[submodule "something/AsciiArt"]
+	path = something/AsciiArt
+	url = https://github.com/zhoudaxia233/AsciiArt
