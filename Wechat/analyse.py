@@ -1,7 +1,7 @@
 '''
 Thanks to http://blog.csdn.net/qinyuanpei/article/details/79360703 for the guidance
 '''
-
+#code with *-utf-8-*
 
 
 
@@ -13,8 +13,8 @@ import numpy as np
 import csv
 
 # login
-itchat.auto_login(hotReload = True) # auto login
-#itchat.login()
+#itchat.auto_login(hotReload = True) # auto login
+itchat.login()
 friends = itchat.get_friends(update = True)
 
 def analyseSex(friends):
@@ -30,14 +30,14 @@ def analyseSex(friends):
     plt.pie(counts,
             labels = labels,
             colors = colors,
-            labeldistance = 2.0,
+            labeldistance = 1.2,
             autopct = '%3.1f%%',
             shadow = False,
             startangle = 90,
-            pctdistance = 0.6
+            pctdistance = 0.5
             )
     plt.legend(loc = 'upper left')
-    plt.title(u"%s nuo friends' gender distribution" % friends[0]['NickName'])
+    plt.title("gender distribution")
     plt.show()
 
 def analyseLocation(friends):
