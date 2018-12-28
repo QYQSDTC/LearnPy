@@ -1,3 +1,4 @@
+#!/bin/bash
 '''Coding = UTF-8
 An unblock youku update script
 default server:158.69.209.100
