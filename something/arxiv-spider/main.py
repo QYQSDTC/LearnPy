@@ -59,7 +59,6 @@ PP = Dict[str, Dict[str, Union[str, List[str]]]]
 
 class Arxiv:
     """Arxiv new list crawer."""
-
     @staticmethod
     def get_subs() -> Set[str]:
         """Get all subs."""
@@ -82,9 +81,10 @@ class Arxiv:
             papers = json.load(open("papers.json"))
         return papers
 
-    def __init__(
-            self, sub: str = None, update: bool = True, multi: int = 5
-    ) -> None:
+    def __init__(self,
+                 sub: str = None,
+                 update: bool = True,
+                 multi: int = 5) -> None:
         """Initialize Arxiv."""
         if os.path.exists("subs"):
             with open("subs") as f:
@@ -96,7 +96,7 @@ class Arxiv:
             print("please input your sub from list:", "\n".join(self.subs))
             sub = input("> ")
 
-        self.url = URL.format(sub = sub)
+        self.url = URL.format(sub=sub)
         self.update = update
         self.papers = self.load_olds()  # type: PP
         self.new_papers = set()  # type: Set[str]
@@ -106,7 +106,7 @@ class Arxiv:
     def save(self) -> None:
         """Save papers' info."""
         with open("papers.json", "w") as f:
-            json.dump(self.papers, f, indent = 3)
+            json.dump(self.papers, f, indent=3)
 
     def save_new(self) -> None:
         """Save only new papers."""
@@ -129,27 +129,22 @@ class Arxiv:
                 continue
             url = ARXIV + dt.select("a[title='Download PDF']")[0].attrs["href"]
             title = dd.select(".list-title")[0].text.replace("\n", "").replace(
-                "Title: ", ""
-            )
+                "Title: ", "")
             author = dd.select(".list-authors")[0].text.replace(
-                "\n", ""
-            ).replace("Authors: ", "")
+                "\n", "").replace("Authors: ", "")
             try:
                 comment = dd.select(".list-comments")[0].text.replace(
-                    "\n", ""
-                ).replace("Comments: ", "")
+                    "\n", "").replace("Comments: ", "")
             except IndexError:
                 comment = "None"
             subjects = dd.select(".list-subjects")[0].text.replace(
-                "\n", ""
-            ).replace("Subjects: ", "")
+                "\n", "").replace("Subjects: ", "")
             primary_subject = dd.select(".primary-subject")[0].text
             try:
                 abstract = dd.select("p.mathjax")[0].text
             except IndexError:
                 cc = bs4.BeautifulSoup(
-                    req.get(url.replace("pdf", "abs")).content, "lxml"
-                )
+                    req.get(url.replace("pdf", "abs")).content, "lxml")
                 abstract = cc.select(".abstract")[0].text
 
             papers[xxh64(fn).hexdigest()] = {
@@ -171,15 +166,15 @@ class Arxiv:
 
     def download_pdf(self) -> None:
         """Download PDFs."""
-        t = tqdm(total = len(self.downloads))
+        t = tqdm(total=len(self.downloads))
         if not os.path.exists("papers"):
             os.mkdir("papers")
 
         def multi(hs: str) -> None:
             """Craw it with multiprocessing."""
-            res = req.get(str(self.papers[hs]["url"]), stream = True)
+            res = req.get(str(self.papers[hs]["url"]), stream=True)
             with open(f"papers/{self.papers[hs]['title']}.pdf", "wb") as f:
-                for chunk in res.iter_content(chunk_size = 64):
+                for chunk in res.iter_content(chunk_size=64):
                     f.write(chunk)
             t.update()
 
@@ -202,24 +197,22 @@ def main() -> None:
     if input("show all papers(y/n)?")[0] == "y":
         print("All papers:")
         for i in arxiv.papers:
-            print(
-                i,
-                arxiv.papers[i]["title"],
-                arxiv.papers[i]["abstract"],
-                sep = "\n"
-            )
+            print(i,
+                  arxiv.papers[i]["title"],
+                  arxiv.papers[i]["abstract"],
+                  sep="\n")
     if arxiv.new_papers:
         print("new papers:")
         for i in arxiv.new_papers:
-            print(
-                i,
-                arxiv.papers[i]["title"],
-                arxiv.papers[i]["abstract"],
-                sep = "\n"
-            )
+            print(i,
+                  arxiv.papers[i]["title"],
+                  arxiv.papers[i]["abstract"],
+                  sep="\n")
     else:
         print("No new papers")
-    print("which paper would you like to download?(c/hash?)")
+    print(
+        "which paper would you like to download?(c/hash?) or press Enter x2 to exit"
+    )
     ipt = input("> ").lower()
     ta = False
     if ipt != "c" and ipt not in arxiv.papers:
@@ -231,13 +224,15 @@ def main() -> None:
             ipt = input("> ").lower()
             continue
         arxiv.downloads.add(ipt)
-        print(ipt, arxiv.papers[ipt]["title"], "and next?(c/hash)?")
+        print(ipt, arxiv.papers[ipt]["title"],
+              "and next?(c/hash)? or press Enter x2 to download")
         ipt = input("> ").lower()
         if ipt != "c" and ipt not in arxiv.papers:
             ta = True
 
+    print('<<<<<<<<<< Start Downloading >>>>>>>>>>>>')
     arxiv.download_pdf()
-    print("see u next time")
+    print("\n see u next time")
 
 
 if __name__ == "__main__":
